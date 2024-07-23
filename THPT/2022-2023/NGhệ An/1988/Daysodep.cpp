@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+using namespace std;
+long long i,a[200009],k,f1[200009],f2[200009],kq,l1,l2,n,j;
+map<long long,int> m1;
+int main(){
+    freopen("Daysodep.Inp","r",stdin);
+    freopen("Daysodep.Out","w",stdout);
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin>>n>>k;
+    for(i=1;i<=n;i++)
+    {
+        cin>>a[i];
+        if(a[i]%2==0)
+        {
+            f1[i]=f1[i-1]+a[i];
+            f2[i]=f2[i-1];
+        }
+        else
+        {
+            f2[i]=f2[i-1]+a[i];
+            f1[i]=f1[i-1];
+        }
+    }
+    if(n<=2000)
+    {
+        for(i=2;i<=n;i++)
+            for(j=1;j<i;j++)
+        {
+            l1=f1[i]-f1[j-1];
+            l2=f2[i]-f2[j-1];
+            if(l1!=0&&l2!=0&&l1-l2>=0&&l1-l2<=k)
+                kq++;
+        }
+    }
+    else if(k==0)
+    {
+        m1[0]=1;
+        for(i=1;i<=n;i++)
+        {
+            if(m1.find(f1[i]-f2[i])!=m1.end())
+                kq+=m1[f1[i]-f2[i]];
+            m1[f1[i]-f2[i]]++;
+        }
+    }
+    else
+    {
+        m1[0]=1;
+        for(i=1;i<=n;i++)
+        {
+            for(j=1;j<=k;j++)
+            {
+                if(m1.find(f1[i]-f2[i]-j)!=m1.end())
+                    kq+=m1[f1[i]-f2[i]-j];
+            }
+            m1[f1[i]-f2[i]]++;
+        }
+    }
+    cout<<kq;
+}
